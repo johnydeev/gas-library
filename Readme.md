@@ -1,0 +1,1 @@
+Librería de scripts y funciones con un fin específico detallado en la documentación de cada uno.
