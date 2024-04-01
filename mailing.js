@@ -1,4 +1,3 @@
-//------------------------------------------------------------------------------------------------------------
 /**
  * Funcion para enviar un mail a una Unidad Funcional especifica, 
  * recibe como parametro la UF y la Hoja de Mails (La UF se ingresa por prompt)

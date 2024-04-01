@@ -1,5 +1,6 @@
-//-----------------------------------------------------------------------------------------
-
+/**
+ * Crea todos los recibos de cada inquilino
+ **/
 function crearRecibosMasivos(FOLDER,SPREADSHEET,HOJA_RECIBO,HOJA_MAILS,cantUF,celdaNombre,celdaUF){
 
     let nombrelibro = "RECIBO DE"

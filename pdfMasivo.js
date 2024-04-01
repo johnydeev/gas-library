@@ -2,29 +2,29 @@
  * crea reporte PDF de cada UF y links, luego extrae y pega el id del PDF y el link del mismo para ubicarlos 
  * en la columna y fila correspondiente en la HojaMails para su posterior uso.
  **/
-function crearPdfsyLinksMasivos (libro, carpeta, hojaMails, cantUF, celdaNombre, celdaUF, rangoCol, mes) {
-
-  let nombrelibro = libro.getName()
+function crearPdfsyLinksMasivos (LIBRO, CARPETA, HOJA_MAILS, CANT_UF, CELDA_NOMBRE, CELDA_UF, RANGO_COL, CELDA_MES) {
+  
+  let nombrelibro = LIBRO.getName()
   let espacio = " "
-  let hojaDetalle = libro.getSheetByName("DETALLE DE GASTOS")
-  let hojaProrrateo = libro.getSheetByName("DEUDORES Y PRORRATEO")
-  let rangoUF = hojaProrrateo.getRange(6, 1, cantUF).getValues()
-  let mesActual = hojaProrrateo.getRange(mes).getValue()
-  ocultarHojasyColumnasAH(libro, rangoCol)
+  let hojaDetalle = LIBRO.getSheetByName("DETALLE DE GASTOS")
+  let hojaProrrateo = LIBRO.getSheetByName("DEUDORES Y PRORRATEO")
+  let rangoUF = hojaProrrateo.getRange(6, 1, CANT_UF).getValues()
+  let mesActual = hojaProrrateo.getRange(CELDA_MES).getValue()
+  ocultarHojasyColumnasAH(LIBRO, RANGO_COL)
   SpreadsheetApp.flush()
-  let carpetaMes = carpeta.createFolder(mesActual)
-  let url = libro.getUrl()
+  let carpetaMes = CARPETA.createFolder(mesActual)
+  let url = LIBRO.getUrl()
   //--------------------- Variables preparadas
 
-  for (let i = 0; i < cantUF; i++) {
+  for (let i = 0; i < CANT_UF; i++) {
 
     Logger.log("ESTOY MOSTRANDO NUM UF: " + rangoUF[i])
 
     Utilities.sleep(3000)
-    hojaDetalle.getRange(celdaUF).setValue(rangoUF[i])
+    hojaDetalle.getRange(CELDA_UF).setValue(rangoUF[i])
     SpreadsheetApp.flush()
     Utilities.sleep(2000)
-    let nombreUF = hojaDetalle.getRange(celdaNombre).getValue()
+    let nombreUF = hojaDetalle.getRange(CELDA_NOMBRE).getValue()
     // --------------------------------------------------------------------------------------
     let blob = crearPdf(url)
     Utilities.sleep(3000)
@@ -37,12 +37,12 @@ function crearPdfsyLinksMasivos (libro, carpeta, hojaMails, cantUF, celdaNombre,
     // Logger.log(archivo.getDownloadUrl())
     // Logger.log(archivo.getId())
 
-    hojaMails.getRange(i + 2, 5).setValue(archivo.getDownloadUrl())
-    // hojaMails.getRange(i+2,5).setValue(archivo.getUrl())  OTRA MANERA DE CREAR LINK
-    hojaMails.getRange(i + 2, 6).setValue(archivo.getId())
+    HOJA_MAILS.getRange(i + 2, 5).setValue(archivo.getDownloadUrl())
+    // HOJA_MAILS.getRange(i+2,5).setValue(archivo.getUrl())  OTRA MANERA DE CREAR LINK
+    HOJA_MAILS.getRange(i + 2, 6).setValue(archivo.getId())
 
   }
-  mostrarHojasyColumnasAH(libro, rangoCol)
+  mostrarHojasyColumnasAH(LIBRO, RANGO_COL)
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------
@@ -50,32 +50,32 @@ function crearPdfsyLinksMasivos (libro, carpeta, hojaMails, cantUF, celdaNombre,
  * Reinicia los reportes PDF desde una UF especifica justo con la creacion de links, luego extrae y pega el id del PDF y el link 
  * del mismo para ubicarlos en la columna y fila correspondiente en la HojaMails para su posterior uso
  **/
-function reiniciarPdfsyLinksMasivos(libro, carpeta, hojaMails, cantUF, celdaNombre, celdaUF, rangoCol, mes, uf) {
+function reiniciarPdfsyLinksMasivos(LIBRO, CARPETA, HOJA_MAILS, CANT_UF, CELDA_NOMBRE, CELDA_UF, RANGO_COL, CELDA_MES, uf) {
 
-  let nombrelibro = libro.getName()
+  let nombrelibro = LIBRO.getName()
   let espacio = " "
-  let hojaDetalle = libro.getSheetByName("DETALLE DE GASTOS")
-  let hojaProrrateo = libro.getSheetByName("DEUDORES Y PRORRATEO")
-  let rangoUF = hojaProrrateo.getRange(6, 1, cantUF).getValues()
-  let mesActual = hojaProrrateo.getRange(mes).getValue()
-  ocultarHojasyColumnasAH(libro, rangoCol)
+  let hojaDetalle = LIBRO.getSheetByName("DETALLE DE GASTOS")
+  let hojaProrrateo = LIBRO.getSheetByName("DEUDORES Y PRORRATEO")
+  let rangoUF = hojaProrrateo.getRange(6, 1, CANT_UF).getValues()
+  let mesActual = hojaProrrateo.getRange(CELDA_MES).getValue()
+  ocultarHojasyColumnasAH(LIBRO, RANGO_COL)
   SpreadsheetApp.flush()
-  let carpetaMes = carpeta.createFolder(mesActual)
+  let carpetaMes = CARPETA.createFolder(mesActual)
   //--------------------- Variables preparadas
 
   Logger.log("Mostrando uf:")
   Logger.log(uf)
 
-  for (let i = uf; i < cantUF; i++) {
+  for (let i = uf; i < CANT_UF; i++) {
 
     Logger.log("ESTOY MOSTRANDO NUM UF: " + rangoUF[i])
 
     Utilities.sleep(3000)
-    hojaDetalle.getRange(celdaUF).setValue(rangoUF[i])
+    hojaDetalle.getRange(CELDA_UF).setValue(rangoUF[i])
     SpreadsheetApp.flush()
     Utilities.sleep(2000)
-    let nombreUF = hojaDetalle.getRange(celdaNombre).getValue()
-    let url = libro.getUrl()
+    let nombreUF = hojaDetalle.getRange(CELDA_NOMBRE).getValue()
+    let url = LIBRO.getUrl()
     let blob = crearPdf(url)
     Utilities.sleep(3000)
 
@@ -87,42 +87,42 @@ function reiniciarPdfsyLinksMasivos(libro, carpeta, hojaMails, cantUF, celdaNomb
     Logger.log(archivo.getDownloadUrl())
     Logger.log(archivo.getId())
 
-    hojaMails.getRange(i + 2, 5).setValue(archivo.getDownloadUrl())
-    // hojaMails.getRange(i+2,5).setValue(archivo.getUrl())  OTRA MANERA DE CREAR LINK
-    hojaMails.getRange(i + 2, 6).setValue(archivo.getId())
+    HOJA_MAILS.getRange(i + 2, 5).setValue(archivo.getDownloadUrl())
+    // HOJA_MAILS.getRange(i+2,5).setValue(archivo.getUrl())  OTRA MANERA DE CREAR LINK
+    HOJA_MAILS.getRange(i + 2, 6).setValue(archivo.getId())
 
   }
-  mostrarHojasyColumnasAH(libro, rangoCol)
+  mostrarHojasyColumnasAH(LIBRO, RANGO_COL)
 }
 
 //-------------------------------------------------------------------------------------------------------
 /**
  * Crea un reporte PDF del detalle personalizado solamente
  **/
-function crearDetallePdfsyLinksMasivos(libro, carpeta, hojaMails, cantUF, celdaNombre, celdaUF, mes) {
+function crearDetallePdfsyLinksMasivos(LIBRO, CARPETA, HOJA_MAILS, CANT_UF, CELDA_NOMBRE, CELDA_UF, CELDA_MES) {
 
-  let nombrelibro = libro.getName()
+  let nombrelibro = LIBRO.getName()
   let espacio = " "
-  let hojaDetalle = libro.getSheetByName("DETALLE DE GASTOS")
-  let hojaProrrateo = libro.getSheetByName("DEUDORES Y PRORRATEO")
-  let rangoUF = hojaProrrateo.getRange(6, 1, cantUF).getValues()
-  let mesActual = hojaProrrateo.getRange(mes).getValue()
+  let hojaDetalle = LIBRO.getSheetByName("DETALLE DE GASTOS")
+  let hojaProrrateo = LIBRO.getSheetByName("DEUDORES Y PRORRATEO")
+  let rangoUF = hojaProrrateo.getRange(6, 1, CANT_UF).getValues()
+  let mesActual = hojaProrrateo.getRange(CELDA_MES).getValue()
   SpreadsheetApp.flush()
-  let carpetaMes = carpeta.createFolder(mesActual)
-  let url = libro.getUrl()
+  let carpetaMes = CARPETA.createFolder(mesActual)
+  let url = LIBRO.getUrl()
   hojaDetalle.hideRows(39, 825)
-  ocultarHojasParaDetalle(libro)
+  ocultarHojasParaDetalle(LIBRO)
   //--------------------- Variables preparadas
 
-  for (let i = 0; i < cantUF; i++) {
+  for (let i = 0; i < CANT_UF; i++) {
 
     Logger.log("ESTOY MOSTRANDO NUM UF: " + rangoUF[i])
 
     Utilities.sleep(3000)
-    hojaDetalle.getRange(celdaUF).setValue(rangoUF[i])
+    hojaDetalle.getRange(CELDA_UF).setValue(rangoUF[i])
     SpreadsheetApp.flush()
     Utilities.sleep(2000)
-    let nombreUF = hojaDetalle.getRange(celdaNombre).getValue()
+    let nombreUF = hojaDetalle.getRange(CELDA_NOMBRE).getValue()
     // --------------------------------------------------------------------------------------
     let blob = crearPdf(url)
     Utilities.sleep(3000)
@@ -135,14 +135,14 @@ function crearDetallePdfsyLinksMasivos(libro, carpeta, hojaMails, cantUF, celdaN
     // Logger.log(archivo.getDownloadUrl())
     // Logger.log(archivo.getId())
 
-    hojaMails.getRange(i + 2, 5).setValue(archivo.getDownloadUrl())
-    // hojaMails.getRange(i+2,5).setValue(archivo.getUrl())  OTRA MANERA DE CREAR LINK
-    hojaMails.getRange(i + 2, 6).setValue(archivo.getId())
+    HOJA_MAILS.getRange(i + 2, 5).setValue(archivo.getDownloadUrl())
+    // HOJA_MAILS.getRange(i+2,5).setValue(archivo.getUrl())  OTRA MANERA DE CREAR LINK
+    HOJA_MAILS.getRange(i + 2, 6).setValue(archivo.getId())
 
   }
   rango = hojaDetalle.getRange(39, 1, 825)
   hojaDetalle.unhideRow(rango)
-  mostrarHojasParaDetalle(libro)
+  mostrarHojasParaDetalle(LIBRO)
 }
 
 //--------------------------------------------------------------------------------------------------------------------------
