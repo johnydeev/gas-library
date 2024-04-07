@@ -74,7 +74,7 @@ function enviarMailsMasivos(HOJA_MAILS){
 function reiniciarMailsMasivos(uf,hojaMails){   
              
     let rangoUFyMails = hojaMails.getRange(2,1,hojaMails.getLastRow()-1,6).getValues()      
-    Logger.log(rangoUFyMails.length)
+    console.log("RangoUFs>>",rangoUFyMails.length)
 
     for(let i=uf-1 ; i< rangoUFyMails.length ; i++){
       
