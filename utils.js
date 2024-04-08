@@ -131,11 +131,9 @@ function mostrarHojasyColumnasAH(libro,rangoCol){
   libro.getActiveSheet().unhideColumn(libro.getRange(rangoCol))
 }
 
-
-
-
-
-
-
-
+function devolverIndiceUF(RANGO_UF,UF){
+  for(let i = 0; i < RANGO_UF.length; i++){    
+    if(RANGO_UF[i] == UF) return i
+  }
+}
 

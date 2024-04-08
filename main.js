@@ -85,8 +85,9 @@ function onOpen3(){
 
   let menu4 = SpreadsheetApp.getUi().createMenu("Recibos")
 
-        menu4.addItem("Crear recibos masivos","crearRecibosMasivos")                        
-            .addToUi()
+        menu4.addItem("Crear recibos masivos","crearRecibosMasivos")
+             .addItem("Reiniciar recibos masivos","reiniciarRecibosMasivos")                       
+             .addToUi()
 
 }
 

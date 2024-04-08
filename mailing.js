@@ -65,19 +65,22 @@ function enviarMailsMasivos(HOJA_MAILS){
           attachments:[blob]
           })      
         }
-        Utilities.sleep(15000)
+        Utilities.sleep(10000)
     } 
   }
 
 //---------------------------------------------------------------------------------
 /** Reinicia el envio masivo de mails desde una UF especifica **/
-function reiniciarMailsMasivos(uf,hojaMails){   
+function reiniciarMailsMasivos(UF,HOJA_MAILS){   
              
-    let rangoUFyMails = hojaMails.getRange(2,1,hojaMails.getLastRow()-1,6).getValues()      
-    console.log("RangoUFs>>",rangoUFyMails.length)
+    let rangoUFyMails = HOJA_MAILS.getRange(2,1,HOJA_MAILS.getLastRow()-1,6).getValues()
+    let rangoUF = HOJA_MAILS.getRange(2,1,HOJA_MAILS.getLastRow()-1,1).getValues()
+    console.log("RangoUfs>>", rangoUF.length)
+    let index = devolverIndiceUF(rangoUF,UF)
+    console.log("RangoUFyMails>>",rangoUFyMails.length)
 
-    for(let i=uf-1 ; i< rangoUFyMails.length ; i++){
-      
+    for(let i= index; i< rangoUFyMails.length ; i++){
+      console.log("Mostrando Index en For: ",i)
       Logger.log(rangoUFyMails[i][0])//Unidad Funcional
       Logger.log(rangoUFyMails[i][2])// Nombre      
       Logger.log(rangoUFyMails[i][3].toString()) // MAIL
@@ -89,12 +92,12 @@ function reiniciarMailsMasivos(uf,hojaMails){
       let nombreUF = rangoUFyMails[i][2]
       let mail = rangoUFyMails[i][3]
 
-        if(mail !== "vacio"){
-        GmailApp.sendEmail(mail,"Administración Morinigo UF:"+uf,"Hola "+nombreUF+" ,te dejo la liquidacion del mes, le solicitamos adjuntar el envio del comprobante de pago por favor.. Gracias y que tenga un excelente dia",{
-          attachments:[blob]
-          })      
-        }
-        Utilities.sleep(15000)
+        // if(mail !== "vacio"){
+        // GmailApp.sendEmail(mail,"Administración Morinigo UF:"+uf,"Hola "+nombreUF+" ,te dejo la liquidacion del mes, le solicitamos adjuntar el envio del comprobante de pago por favor.. Gracias y que tenga un excelente dia",{
+        //   attachments:[blob]
+        //   })      
+        // }
+        Utilities.sleep(10000)
        Logger.log("Mail Enviado")
     } 
   }
