@@ -41,10 +41,12 @@ function enviarMail(UF,HOJA_MAILS){
  * Envia un mail a todas la unidades funcionales que se encuentren en la HOJA_MAILS 
  * y omite los envios en las celdas que se encuentre cargado la palabra "vacio" de lo contrario el codigo se rompera
 **/
-function enviarMailsMasivos(HOJA_MAILS){   
+function enviarMailsMasivos(HOJA_MAILS,ID_PDF){   
 
              
-    let rangoUFyMails = HOJA_MAILS.getRange(2,1,HOJA_MAILS.getLastRow()-1,6).getValues()      
+    let rangoUFyMails = HOJA_MAILS.getRange(2,1,HOJA_MAILS.getLastRow()-1,6).getValues()
+    let general = DriveApp.getFileById(ID_PDF)
+    let blob2 = general.getAs(MimeType.PDF)
     Logger.log(rangoUFyMails.length)
 
     for(let i=0 ; i< rangoUFyMails.length ; i++){
@@ -61,8 +63,8 @@ function enviarMailsMasivos(HOJA_MAILS){
       let mail = rangoUFyMails[i][3]
 
         if(mail !== "vacio"){
-        GmailApp.sendEmail(mail,"Administración Morinigo UF:"+uf,"Hola "+nombreUF+" ,le enviamos la liquidacion del mes, solicitamos adjuntar el envio del comprobante de pago por favor.. Gracias y que tenga un excelente dia",{
-          attachments:[blob]
+        GmailApp.sendEmail(mail,"Administración Morinigo UF:"+uf,"Hola "+nombreUF+" ,le enviamos la liquidación del mes. En ella encontrarán una cuota extraordinaria detallada en la misma para afrontar el cateo de la medianera de Santiago del Estero y a su vez, un incremento en las expensas ordinarias debido a los incrementos salariales y servicios que presenta el consorcio.\nSi usted figura moroso y realizó su pago de expensas, por favor solicitamos adjuntar el envío del comprobante de pago para poder imputar su cancelación, desde ya le pedimos las disculpas correspondientes por las molestias que le podamos ocasionar. Gracias y que tenga un excelente dia",{
+          attachments:[blob, blob2]
           })      
         }
         Utilities.sleep(10000)
@@ -71,10 +73,12 @@ function enviarMailsMasivos(HOJA_MAILS){
 
 //---------------------------------------------------------------------------------
 /** Reinicia el envio masivo de mails desde una UF especifica **/
-function reiniciarMailsMasivos(UF,HOJA_MAILS){   
+function reiniciarMailsMasivos(UF,HOJA_MAILS, ID_PDF){   
              
     let rangoUFyMails = HOJA_MAILS.getRange(2,1,HOJA_MAILS.getLastRow()-1,6).getValues()
     let rangoUF = HOJA_MAILS.getRange(2,1,HOJA_MAILS.getLastRow()-1,1).getValues()
+    let general = DriveApp.getFileById(ID_PDF)
+    let blob2 = general.getAs(MimeType.PDF)
     console.log("RangoUfs>>", rangoUF.length)
     let index = devolverIndiceUF(rangoUF,UF)
     console.log("RangoUFyMails>>",rangoUFyMails.length)
@@ -92,11 +96,11 @@ function reiniciarMailsMasivos(UF,HOJA_MAILS){
       let nombreUF = rangoUFyMails[i][2]
       let mail = rangoUFyMails[i][3]
 
-        // if(mail !== "vacio"){
-        // GmailApp.sendEmail(mail,"Administración Morinigo UF:"+uf,"Hola "+nombreUF+" ,te dejo la liquidacion del mes, le solicitamos adjuntar el envio del comprobante de pago por favor.. Gracias y que tenga un excelente dia",{
-        //   attachments:[blob]
-        //   })      
-        // }
+        if(mail !== "vacio"){
+        GmailApp.sendEmail(mail,"Administración Morinigo UF:"+uf,"Hola "+nombreUF+" ,le enviamos la liquidación del mes. En ella encontrarán una cuota extraordinaria detallada en la misma para afrontar el cateo de la medianera de Santiago del Estero y a su vez, un incremento en las expensas ordinarias debido a los incrementos salariales y servicios que presenta el consorcio.\nSi usted figura moroso y realizó su pago de expensas, por favor solicitamos adjuntar el envío del comprobante de pago para poder imputar su cancelación, desde ya le pedimos las disculpas correspondientes por las molestias que le podamos ocasionar. Gracias y que tenga un excelente dia",{
+          attachments:[blob, blob2]
+          })      
+        }
         Utilities.sleep(10000)
        Logger.log("Mail Enviado")
     } 

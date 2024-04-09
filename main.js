@@ -1,9 +1,13 @@
+MENU_PDFS = "Crear PDFs"
+MENU_EXPENSAS = "Expensas"
+MENU_DEUDORES = "Deudores"
+MENU_RECIBOS = "Recibos"
 /**
  *Menu personalizado para la ejecucion de script o funcionalidades requeridas en la/s hoja/s
  **/
 function onOpen(){
 
-  let menu = SpreadsheetApp.getUi().createMenu("Crear PDFs")
+  let menu = SpreadsheetApp.getUi().createMenu(MENU_PDFS)
 
         menu.addItem("Crear Reporte PDF","crearReportePdf")
             .addItem("Crear Reporte PDF SIN Personalizar","crearPdfSinPersonalizar") 
@@ -11,24 +15,25 @@ function onOpen(){
             .addItem("Reiniciar PDFs y Links Masivos","reiniciarPdfsyLinksMasivos")
             .addToUi()    
               
-  let menu2 = SpreadsheetApp.getUi().createMenu("Enviar Mails")
+  let menu2 = SpreadsheetApp.getUi().createMenu(MENU_EXPENSAS)
 
-      menu2.addItem("Enviar mail a una UF especifica", "enviarMail")
-           .addItem("Reiniciar envios masivos desde UF especifica","reiniciarMailsMasivos")
-           .addItem("Enviar Mails Masivos", "enviarMailsMasivos")
+      menu2.addItem("Enviar expensas a una UF especifica", "enviarMail")
+           .addItem("Reiniciar envios de expensas desde UF especifica","reiniciarMailsMasivos")
+           .addItem("Enviar expensas a todos", "enviarMailsMasivos")
            .addItem("Consultar Cuota de Mails","verCuotaDeMails")
-           .addToUi()      
+           .addToUi()
   
-  let menu3 = SpreadsheetApp.getUi().createMenu("Deudores")
+  let menu3 = SpreadsheetApp.getUi().createMenu(MENU_DEUDORES)
 
       menu3.addItem("Crear tabla Deudores","crearListaDeudores")
       // menu3.addItem("Ocultar Hojas y Columnas","ocultarHojasyColumnas")
            .addToUi()
 
-  let menu4 = SpreadsheetApp.getUi().createMenu("Recibos")
+  let menu4 = SpreadsheetApp.getUi().createMenu(MENU_RECIBOS)
 
-        menu4.addItem("Crear recibos masivos","crearRecibosMasivos")                        
-            .addToUi()
+        menu4.addItem("Crear recibos masivos","crearRecibosMasivos")
+            //  .addItem("Reiniciar recibos masivos","reiniciarRecibosMasivos")                   
+             .addToUi()
 
 }
 //--------------------------------------------------------------------------------------------------------------------
@@ -37,16 +42,16 @@ function onOpen(){
  **/
 function onOpen2(){
 
-  let menu = SpreadsheetApp.getUi().createMenu("Crear PDFs")
+  let menu = SpreadsheetApp.getUi().createMenu(MENU_PDFS)
 
         // menu.addItem("Crear Reporte PDF","crearReportePdf")
         menu.addItem("Crear Reporte PDF SIN Personalizar","crearReportePdf2") 
             // .addItem("Crear PDFs y Links Masivos","crearPdfsyLinksMasivos")
             .addToUi()
                           
-  let menu2 = SpreadsheetApp.getUi().createMenu("Enviar Mails")
+  let menu2 = SpreadsheetApp.getUi().createMenu(MENU_EXPENSAS)
 
-      menu2.addItem("Enviar mail a una UF especifica", "enviarMail")
+      menu2.addItem("Enviar expensas a una UF especifica", "enviarMail")
            .addToUi()
   
   // let menu3 = SpreadsheetApp.getUi().createMenu("Mostrar Hojas y Columnas")
@@ -61,7 +66,7 @@ function onOpen2(){
  **/
 function onOpen3(){
 
-  let menu = SpreadsheetApp.getUi().createMenu("Crear PDFs")
+  let menu = SpreadsheetApp.getUi().createMenu(MENU_PDFS)
 
         menu.addItem("Crear Reporte PDF","crearReportePdf")
             .addItem("Crear Reporte PDF SIN Personalizar","crearPdfSinPersonalizar") 
@@ -69,21 +74,21 @@ function onOpen3(){
             .addItem("Reiniciar PDFs y Links Masivos","reiniciarDetallePdfsyLinksMasivos")
             .addToUi()    
               
-  let menu2 = SpreadsheetApp.getUi().createMenu("Enviar Mails")
+  let menu2 = SpreadsheetApp.getUi().createMenu(MENU_EXPENSAS)
 
-      menu2.addItem("Enviar mail a una UF especifica", "enviarMail")
-           .addItem("Reiniciar envios masivos desde UF especifica","reiniciarMailsMasivos")
-           .addItem("Enviar Mails Masivos", "enviarMailsMasivos")
+      menu2.addItem("Enviar expensas a una UF especifica", "enviarMail") 
+           .addItem("Reiniciar envios de expensas desde UF especifica","reiniciarMailsMasivos")          
+           .addItem("Enviar expensas a todos", "enviarMailsMasivos")           
            .addItem("Consultar Cuota de Mails","verCuotaDeMails")
-           .addToUi()      
+           .addToUi()
   
-  let menu3 = SpreadsheetApp.getUi().createMenu("Deudores")
+  let menu3 = SpreadsheetApp.getUi().createMenu(MENU_DEUDORES)
 
-      menu3.addItem("Crear tabla Deudores","crearListaDeudores")
+      menu3.addItem("Crear tabla Deudores en DETALLE DE GASTOS","crearListaDeudores")
       // menu3.addItem("Ocultar Hojas y Columnas","ocultarHojasyColumnas")
            .addToUi()
 
-  let menu4 = SpreadsheetApp.getUi().createMenu("Recibos")
+  let menu4 = SpreadsheetApp.getUi().createMenu(MENU_RECIBOS)
 
         menu4.addItem("Crear recibos masivos","crearRecibosMasivos")
              .addItem("Reiniciar recibos masivos","reiniciarRecibosMasivos")                       
