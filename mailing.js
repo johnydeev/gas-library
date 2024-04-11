@@ -2,6 +2,9 @@
  * Funcion para enviar un mail a una Unidad Funcional especifica, 
  * recibe como parametro la UF y la Hoja de Mails (La UF se ingresa por prompt)
 **/
+//TODO --------------------------
+// 1- LLAMAR A LA FUNCION devulveIndice para refactorizar el codigo
+// 2- Extraer solo la columna UF para recorrer el rango y no toda la tabla ya que se utiliza la primera columna para comparar.
 function enviarMail(UF,HOJA_MAILS){  
 
   let espacio = "] "
@@ -15,12 +18,11 @@ function enviarMail(UF,HOJA_MAILS){
       let idPDF = rangoUFyMails[i][5]
       let archivo = DriveApp.getFileById(idPDF)
       let blob = archivo.getAs(MimeType.PDF)
-      Logger.log("archivo")
-      Logger.log(archivo)
-      Logger.log("blob")
-      Logger.log(blob)
+      console.log("Nombre de Archivo: ",archivo.getName())            
       let nombreUF = rangoUFyMails[i][2]
+      console.log("Nombre UF: ",rangoUFyMails[i][2])
       let mail = rangoUFyMails[i][3]
+      console.log("Mail: ",rangoUFyMails[i][3])
         if(mail !== "vacio"){
         GmailApp.sendEmail(mail,"Administración Morinigo UF:"+UF,"Hola "+nombreUF+",le enviamos la liquidación del mes,solicitamos adjuntar el envío del comprobante de pago por favor..  Gracias y que tenga un excelente día.",{
           attachments:[blob]
@@ -41,12 +43,14 @@ function enviarMail(UF,HOJA_MAILS){
  * Envia un mail a todas la unidades funcionales que se encuentren en la HOJA_MAILS 
  * y omite los envios en las celdas que se encuentre cargado la palabra "vacio" de lo contrario el codigo se rompera
 **/
-function enviarMailsMasivos(HOJA_MAILS,ID_PDF){   
+function enviarMailsMasivos(HOJA_MAILS){   
 
              
     let rangoUFyMails = HOJA_MAILS.getRange(2,1,HOJA_MAILS.getLastRow()-1,6).getValues()
-    let general = DriveApp.getFileById(ID_PDF)
-    let blob2 = general.getAs(MimeType.PDF)
+    //----Se utilizo para enviar un segundo archivo adjunto el cual recibe un parametro ID_PDF
+    // let general = DriveApp.getFileById(ID_PDF)
+    // let blob2 = general.getAs(MimeType.PDF)
+    //-----------------------------------------------------------
     Logger.log(rangoUFyMails.length)
 
     for(let i=0 ; i< rangoUFyMails.length ; i++){
@@ -63,8 +67,8 @@ function enviarMailsMasivos(HOJA_MAILS,ID_PDF){
       let mail = rangoUFyMails[i][3]
 
         if(mail !== "vacio"){
-        GmailApp.sendEmail(mail,"Administración Morinigo UF:"+uf,"Hola "+nombreUF+" ,le enviamos la liquidación del mes. En ella encontrarán una cuota extraordinaria detallada en la misma para afrontar el cateo de la medianera de Santiago del Estero y a su vez, un incremento en las expensas ordinarias debido a los incrementos salariales y servicios que presenta el consorcio.\nSi usted figura moroso y realizó su pago de expensas, por favor solicitamos adjuntar el envío del comprobante de pago para poder imputar su cancelación, desde ya le pedimos las disculpas correspondientes por las molestias que le podamos ocasionar. Gracias y que tenga un excelente dia",{
-          attachments:[blob, blob2]
+        GmailApp.sendEmail(mail,"Administración Morinigo UF:"+uf,"Hola "+nombreUF+", "+"le enviamos la liquidación del mes.\n Si usted figura moroso y realizó su pago de expensas, por favor solicitamos adjuntar el envío del comprobante de pago para poder imputar su cancelación. Gracias y que tenga un excelente dia",{
+          attachments:[blob]
           })      
         }
         Utilities.sleep(10000)
@@ -73,12 +77,14 @@ function enviarMailsMasivos(HOJA_MAILS,ID_PDF){
 
 //---------------------------------------------------------------------------------
 /** Reinicia el envio masivo de mails desde una UF especifica **/
-function reiniciarMailsMasivos(UF,HOJA_MAILS, ID_PDF){   
+function reiniciarMailsMasivos(UF,HOJA_MAILS){   
              
     let rangoUFyMails = HOJA_MAILS.getRange(2,1,HOJA_MAILS.getLastRow()-1,6).getValues()
     let rangoUF = HOJA_MAILS.getRange(2,1,HOJA_MAILS.getLastRow()-1,1).getValues()
-    let general = DriveApp.getFileById(ID_PDF)
-    let blob2 = general.getAs(MimeType.PDF)
+    //----Se utilizo para enviar un segundo archivo adjunto el cual recibe un parametro ID_PDF
+    // let general = DriveApp.getFileById(ID_PDF)
+    // let blob2 = general.getAs(MimeType.PDF)
+    //-----------------------------------------------------------
     console.log("RangoUfs>>", rangoUF.length)
     let index = devolverIndiceUF(rangoUF,UF)
     console.log("RangoUFyMails>>",rangoUFyMails.length)
@@ -97,8 +103,8 @@ function reiniciarMailsMasivos(UF,HOJA_MAILS, ID_PDF){
       let mail = rangoUFyMails[i][3]
 
         if(mail !== "vacio"){
-        GmailApp.sendEmail(mail,"Administración Morinigo UF:"+uf,"Hola "+nombreUF+" ,le enviamos la liquidación del mes. En ella encontrarán una cuota extraordinaria detallada en la misma para afrontar el cateo de la medianera de Santiago del Estero y a su vez, un incremento en las expensas ordinarias debido a los incrementos salariales y servicios que presenta el consorcio.\nSi usted figura moroso y realizó su pago de expensas, por favor solicitamos adjuntar el envío del comprobante de pago para poder imputar su cancelación, desde ya le pedimos las disculpas correspondientes por las molestias que le podamos ocasionar. Gracias y que tenga un excelente dia",{
-          attachments:[blob, blob2]
+        GmailApp.sendEmail(mail,"Administración Morinigo UF:"+uf,"Hola "+nombreUF+", "+"le enviamos la liquidación del mes.Si usted figura moroso y realizó su pago de expensas, por favor solicitamos adjuntar el envío del comprobante de pago para poder imputar su cancelación. Gracias y que tenga un excelente dia",{
+          attachments:[blob]
           })      
         }
         Utilities.sleep(10000)
