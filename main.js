@@ -32,7 +32,7 @@ function onOpen(){
   let menu4 = SpreadsheetApp.getUi().createMenu(MENU_RECIBOS)
 
         menu4.addItem("Crear recibos masivos","crearRecibosMasivos")
-            //  .addItem("Reiniciar recibos masivos","reiniciarRecibosMasivos")                   
+             .addItem("Reiniciar recibos masivos","reiniciarRecibosMasivos")
              .addToUi()
 
 }
@@ -91,7 +91,9 @@ function onOpen3(){
   let menu4 = SpreadsheetApp.getUi().createMenu(MENU_RECIBOS)
 
         menu4.addItem("Crear recibos masivos","crearRecibosMasivos")
-             .addItem("Reiniciar recibos masivos","reiniciarRecibosMasivos")                       
+             .addItem("Crear recibo de UF especifica","crearRecibo") 
+             .addItem("Reiniciar recibos masivos","reiniciarRecibosMasivos")
+             .addItem("Enviar Recibo a UF especifica","enviarRecibo")
              .addToUi()
 
 }

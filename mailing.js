@@ -37,14 +37,61 @@ function enviarMail(UF,HOJA_MAILS){
     Browser.msgBox("No se encontro Unidad Funcional requerida",Browser.Buttons.OK) 
 
 }
+//-------------------------------------------------------------------------------------------------------------
+
+function enviarRecibo(UF,HOJA_MAILS,SPREADSHEET){
+  let espacio = "] "
+    
+  let rangoUFyMails = HOJA_MAILS.getRange(2,1,HOJA_MAILS.getLastRow() -1,9).getValues()
+  let hojaProrrateo = SPREADSHEET.getSheetByName("DEUDORES Y PRORRATEO") 
+  let mesActual = hojaProrrateo.getRange("B3").getValue()
+  console.log("Mes Actual >>",mesActual)
+  
+    for(let i=0; i< rangoUFyMails.length; i++){
+
+      if(rangoUFyMails[i][0] == UF ){
+        if(rangoUFyMails[i][6] == true ){
+          console.log("¿PAGO?>>",rangoUFyMails[i][6])
+          console.log("rangoUFyMails[i][8]>>", rangoUFyMails[i][8])
+          let idRecibo = rangoUFyMails[i][8]
+          console.log("ID recibo",idRecibo)
+          let archivo = DriveApp.getFileById(idRecibo)
+          // let blob = archivo.getAs(MimeType.PDF)
+          console.log("Nombre de Archivo: ",archivo.getName())            
+          let nombreUF = rangoUFyMails[i][2]
+          console.log("Nombre UF: ",nombreUF)
+          let mail = rangoUFyMails[i][3]
+          console.log("Mail: ",mail)
+          
+          Browser.msgBox("ATENCION: Se enviara el recibo a\n UF: ["+UF+ espacio +"Propietario: "+ rangoUFyMails[i][2]+"\t Aceptar si esta seguro de enviarlo",Browser.Buttons.OK)
+            // if(mail !== "vacio"){
+            // GmailApp.sendEmail(mail,"Administración Morinigo UF:"+UF,"Hola "+nombreUF+",Se le adjunta el recibo correspondiente al mes "+  +" Gracias y que tenga un excelente día.",{
+            //   attachments:[blob]
+            //   })
+              
+
+            //   return Browser.msgBox("Se envio un el recibo a UF: ["+UF+ espacio + "Propietario: "+ rangoUFyMails[i][2],Browser.Buttons.OK)      
+            // }else{
+            //   return Browser.msgBox("La unidad funcional no tiene mail cargado",Browser.Buttons.OK)
+            // }        
+          HOJA_MAILS.getRange(i + 2, 10).setValue("ENVIADO")
+          let fechaActual = new Date()
+          console.log("fechaActual>>",fechaActual.toLocaleDateString())
+          HOJA_MAILS.getRange(i + 2, 11).setValue(fechaActual)
+        }else{
+          return Browser.msgBox("ATENCION!! Por favor revisar la siguiente informacion: La Unidad Funcional no realizo el pago o No existe",Browser.Buttons.OK)
+        }
+      }
+    }
+    // Browser.msgBox("No se encontro Unidad Funcional",Browser.Buttons.OK) 
+}
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 /**
  * Envia un mail a todas la unidades funcionales que se encuentren en la HOJA_MAILS 
  * y omite los envios en las celdas que se encuentre cargado la palabra "vacio" de lo contrario el codigo se rompera
 **/
-function enviarMailsMasivos(HOJA_MAILS){   
-
+function enviarMailsMasivos(HOJA_MAILS){
              
     let rangoUFyMails = HOJA_MAILS.getRange(2,1,HOJA_MAILS.getLastRow()-1,6).getValues()
     //----Se utilizo para enviar un segundo archivo adjunto el cual recibe un parametro ID_PDF
@@ -94,7 +141,7 @@ function reiniciarMailsMasivos(UF,HOJA_MAILS){
       Logger.log(rangoUFyMails[i][0])//Unidad Funcional
       Logger.log(rangoUFyMails[i][2])// Nombre      
       Logger.log(rangoUFyMails[i][3].toString()) // MAIL
-      Logger.log(rangoUFyMails[i][5]) // ID pdf    
+      Logger.log(rangoUFyMails[i][5]) // ID PDF  
       let idPDF = rangoUFyMails[i][5]
       let archivo = DriveApp.getFileById(idPDF)
       let blob = archivo.getAs(MimeType.PDF)
