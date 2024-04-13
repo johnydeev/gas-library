@@ -5,7 +5,7 @@
 function crearPdfsyLinksMasivos (LIBRO, CARPETA, HOJA_MAILS, CANT_UF, CELDA_NOMBRE, CELDA_UF, RANGO_COL, CELDA_MES) {
   
   let nombrelibro = LIBRO.getName()
-  let espacio = " "
+  let espacio = " - "
   let hojaDetalle = LIBRO.getSheetByName("DETALLE DE GASTOS")
   let hojaProrrateo = LIBRO.getSheetByName("DEUDORES Y PRORRATEO")
   let rangoUF = hojaProrrateo.getRange(6, 1, CANT_UF).getValues()

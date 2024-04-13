@@ -3,6 +3,8 @@
  **/
 function crearRecibosMasivos(CARPETA,SPREADSHEET,HOJA_RECIBO,HOJA_MAILS,CANT_UF,CELDA_PROPIETARIO,CELDA_UF,CELDA_MES){
     
+    console.log("SPREADSHEET>>", SPREADSHEET.getName(),SPREADSHEET.getId())
+
     //Se crean las variables necesarias para la creacion de los recibos
     let nombrePdf = "RECIBO DE"
     let espacio = " "
@@ -16,26 +18,27 @@ function crearRecibosMasivos(CARPETA,SPREADSHEET,HOJA_RECIBO,HOJA_MAILS,CANT_UF,
     ocultarHojasParaRecibo(SPREADSHEET)
     SpreadsheetApp.flush()
     console.log("en la puerta del for")
+    let url = SPREADSHEET.getUrl()
 
-    for(let i = 0 ; i < CANT_UF ; i++){
-      console.log("Entro al for..")
-      Utilities.sleep(1500)
-      HOJA_RECIBO.getRange(CELDA_UF).setValue(rangoUF[i])
-      SpreadsheetApp.flush()
-      Utilities.sleep(1000)
-      let nombreUF = HOJA_RECIBO.getRange(CELDA_PROPIETARIO).getValue()
-      let url = SPREADSHEET.getUrl()
-      let blob = crearPdf(url)
-      Utilities.sleep(1500)
-      let archivo = carpetaMes.createFile(blob).setName("UF"+rangoUF[i]+espacio+nombrePdf + espacio + nombreUF)
+    if(url){
+      for(let i = 0 ; i < CANT_UF ; i++){
+        console.log("Entro al for..")
+        Utilities.sleep(1500)
+        HOJA_RECIBO.getRange(CELDA_UF).setValue(rangoUF[i])
+        SpreadsheetApp.flush()
+        Utilities.sleep(1000)
+        let nombreUF = HOJA_RECIBO.getRange(CELDA_PROPIETARIO).getValue()
+        let blob = crearPdf(url)
+        Utilities.sleep(1500)
+        let archivo = carpetaMes.createFile(blob).setName("UF"+rangoUF[i]+espacio+nombrePdf + espacio + nombreUF)
 
-      Logger.log(archivo.getName()+ rangoUF[i])
-      Logger.log(archivo.getDownloadUrl())
-      Logger.log(archivo.getId())
+        Logger.log(archivo.getName()+ rangoUF[i])
+        Logger.log(archivo.getDownloadUrl())
+        Logger.log(archivo.getId())
 
-      HOJA_MAILS.getRange(i+2,8).setValue(archivo.getDownloadUrl())
-      HOJA_MAILS.getRange(i+2,9).setValue(archivo.getId())
-
+        HOJA_MAILS.getRange(i+2,8).setValue(archivo.getDownloadUrl())
+        HOJA_MAILS.getRange(i+2,9).setValue(archivo.getId())
+      }
     }
     mostrarHojasParaRecibo(SPREADSHEET)
 }
@@ -70,8 +73,7 @@ function crearRecibo(CARPETA,SPREADSHEET,HOJA_RECIBO,HOJA_MAILS,CANT_UF,CELDA_PR
 
     HOJA_MAILS.getRange(index+2,8).setValue(archivo.getDownloadUrl())
     HOJA_MAILS.getRange(index+2,9).setValue(archivo.getId())
-
-    
+        
     mostrarHojasParaRecibo(SPREADSHEET)
 }
 /**
