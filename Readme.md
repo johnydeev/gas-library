@@ -1,1 +1,3 @@
-Librería de scripts y funciones con un fin específico detallado en la cabecera de cada función.
+Librería de scripts y funciones con un fin específico detallado en la cabecera de cada función. 
+
+Documentacion mas detallada muy pronto...
